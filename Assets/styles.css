@@ -28,7 +28,7 @@ main {
     padding: 20px;
 }
 
-#questions, #results, #submit-score, #highscores {
+#questions-section, #results-section, #submit-score, #highscores-section {
     width: 100%;
     max-width: 600px;
     margin: auto;
