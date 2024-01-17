@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Assets/styles.css">
+    <title>Coding Quiz</title>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <a href="#" id="view-highscores"> View Highscores </a>
+            <div id="timer"> Time: <span id="clock"> 0 </span> s </div>
+        </header>
+        <main id="main"> 
+            <h1> Coding Quiz Challenge </h1>
+            <p> Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your scoretime by ten seconds! </p>
+            <button id="start-button"> Start Quiz </button>
+                <div id="questions" class="hide"> </div>
+                <div id="results" class="hide"> </div>
+        </main>
+
+        <div id="submit-score" class="hide">
+            <h2> All Done! </h2>
+            <p> Your final score is: <span id="final-score"></span>.</p>
+            <form id="submit-score-form">
+                <input type="text" id="user-initials" placeholder="Enter initials" required>
+                <button type="submit"> Submit </button>
+            </form>
+
+        </div>
+
+        <div id="highscores" class="hide">
+            <h2> Scores </h2>
+            <ul id="highscores-list"> </ul>
+            <button id="go-back.button"> Go back </button>
+            <button id="clear-highscores-button"> Clear Highscores </button>
+
+        </div>
+    </div>
+
+    <script src="./Assets/script.js"></script>
+</body>
+</html>
