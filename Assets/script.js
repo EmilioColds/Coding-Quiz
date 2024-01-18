@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     var questions = [
         {
-            question1: "Commonly used data types DO NOT include: ",
-            answers1: [
+            question: "Commonly used data types DO NOT include: ",
+            answers: [
                 { text: "Strings", correct: false},
                 { text: "Booleans", correct: false},
                 { text: "Alerts", correct: true},
@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
             ],
         },
         {
-            question2: "The condition in an if/else statement is enclosed within ____. ",
-            answers2: [
+            question: "The condition in an if/else statement is enclosed within ____. ",
+            answers: [
                 { text: "Quotes", correct: false},
                 { text: "Curly brackets", correct: false},
                 { text: "Parenthesis", correct: true},
@@ -42,8 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
             ],
         },
         {
-            question3: "Arrays in JavaScript can be used to store ____. ",
-            answers3: [
+            question: "Arrays in JavaScript can be used to store ____. ",
+            answers: [
                 { text: "Numbers and strings", correct: false},
                 { text: "Other arrays", correct: false},
                 { text: "Booleans", correct: false},
@@ -51,8 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
             ],
         },
         {
-            question4: "String values must be enclosed within ____ when being assigned to variables. ",
-            answers4: [
+            question: "String values must be enclosed within ____ when being assigned to variables. ",
+            answers: [
                 { text: "Commas", correct: false},
                 { text: "Curly brackets", correct: false},
                 { text: "Quotes", correct: true},
@@ -60,8 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
             ],
         },
         {
-            question5: "A very useful tool used during development and debugging for printing content to the debugger is: ",
-            answers5: [
+            question: "A very useful tool used during development and debugging for printing content to the debugger is: ",
+            answers: [
                 { text: "JavaScript", correct: false},
                 { text: "Terminal / bash", correct: false},
                 { text: "For loops", correct: false},
@@ -77,8 +77,38 @@ document.addEventListener("DOMContentLoaded", () => {
         timer = 60;
         clock.innerText = "%{timer} seconds";
         questionsSection.classList.remove("hide");
-        // startClock(); Declarar funciones para después
-        // setNextQuestion(); Declarar funciones para después
+        startClock();
+        setNextQuestion();
+    }
+
+    function startClock() {
+        timerInterval = setInterval(() => {
+            timer--;
+            clock.innerText = "${timer} seconds";
+            if (timer <= 0) {
+                clearInterval(timerInterval);
+                endGame();
+            }
+        }, 1000);
+    }
+
+    function setNextQuestion() {
+        resetState();
+        showQuestion(questions[currentQuestionIndex]);
+    }
+
+    function showQuestion() {
+        questionsSection.innerText = question.question;
+        question.answers.forEach(answer => {
+            var button = document.createElement("button");
+            button.innerText = answer.text;
+            button.classList.add("button");
+            if (answer.correct) {
+                button.dataset.correct = answer.correct;
+            }
+            button.addEventListener ("click", selectAnswer);
+            answerButton.appendChild(button);
+        });
     }
 
 });
