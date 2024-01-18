@@ -1,16 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
-    var startQuizButton = document.getElementById("start-button");
-    var questionsSection = document.getElementById("questions-section");
-    var question = document.getElementById("question");
-    var answerButton = document.getElementById("answer-button");
-    var clock = document.getElementById("clock");
-    var submitScoreForm = document.getElementById("submit-score-form");
-    var userInitials = document.getElementById("user-initials");
-    var feedback = document.getElementById("feedback");
-    var finalScore = document.getElementById("final-score");
-    var viewHighscores = document.getElementById("view-highscores");
-    var highscores = document.getElementById("highscores");
-    var highscoresList = document.getElementById("highscores-list");
+    var startQuizButton = document.getElementById("start-button"); //startButton
+    var quizIntro = document.getElementById("intro-quiz") 
+    var questionsSection = document.getElementById("questions-section"); //questionContainerElement
+    var questionElement = document.getElementById("question"); //questionElement
+    var answerButton = document.getElementById("answer-button"); //answerButtonsElement
+    var clock = document.getElementById("clock"); //timerElement
+
+    var submitScoreForm = document.getElementById("submit-score-form"); //submitScoreForm
+    var userInitials = document.getElementById("user-initials"); //userInitialsInput
+    var feedback = document.getElementById("feedback"); //Added
+    var finalScore = document.getElementById("final-score"); //finalScoreElement
+    var viewHighscores = document.getElementById("view-highscores"); //highscoresLink
+    var highscores = document.getElementById("highscores"); //highscoresContainer
+    var highscoresList = document.getElementById("highscores-list"); //highscoresList
     var goBackButton = document.getElementById("go-back-button");
     var clearHighscoresButton = document.getElementById("clear-highscores-button");
 
@@ -27,8 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
         currentQuestionIndex = 0;
         startQuizButton.classList.add("hide");
         timer = 60;
-        clock.innerText = `%{timer} seconds`;
+        clock.innerText = `%{timer}`;
         questionsSection.classList.remove("hide");
+        quizIntro.classList.add("hide");
         startClock();
         setNextQuestion();
     }
@@ -36,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function startClock() {
         timerInterval = setInterval(() => {
             timer--;
-            clock.innerText = `${timer} seconds`;
+            clock.innerText = `${timer}`;
             if (timer <= 0) {
                 clearInterval(timerInterval);
                 endQuiz();
@@ -50,14 +53,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function showQuestion(question) {
-        questionsSection.innerText = question.question;
-        question.answers.forEach(answer => {
+        questionElement.innerText = questions[currentQuestionIndex].question;
+        questions[currentQuestionIndex].answers.forEach(answer => {
             var button = document.createElement("button");
             button.innerText = answer.text;
             button.classList.add("button");
-            if (answer.correct) {
-                button.dataset.correct = answer.correct;
-            }
+            button.dataset.correct = answer.correct
+            // if (answer.correct) {
+                // button.dataset.correct = answer.correct;
+            // }
             button.addEventListener ("click", selectAnswer);
             answerButton.appendChild(button);
         });
@@ -77,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             timer -= 10;
             if (timer < 0) timer = 0;
-            clock.innerText = `${timer} seconds`;
+            clock.innerText = `${timer}`;
         }
         if (currentQuestionIndex < questions.length - 1){
             currentQuestionIndex++;
