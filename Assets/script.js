@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    var startQuiz = document.getElementById("start-button");
+    var startQuizButton = document.getElementById("start-button");
     var questionsSection = document.getElementById("questions-section");
-    var question = document.getElementById("");
+    var question = document.getElementById("question");
     var answerButton = document.getElementById("answer-button");
     var clock = document.getElementById("clock");
     var submitScoreForm = document.getElementById("submit-score-form");
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentQuestionIndex, timer, score, timerInterval;
 
-    startQuiz.addEventListener("click", startQuiz);
+    startQuizButton.addEventListener("click", startQuiz);
     submitScoreForm.addEventListener("submit", saveHighscores);
     highscoresList.addEventListener("click", showHighscores);
     goBackButton.addEventListener("click", goBack);
@@ -25,9 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function startQuiz() {
         score = 0;
         currentQuestionIndex = 0;
-        startQuiz.classList.add("hide");
+        startQuizButton.classList.add("hide");
         timer = 60;
-        clock.innerText = "%{timer} seconds";
+        clock.innerText = `%{timer} seconds`;
         questionsSection.classList.remove("hide");
         startClock();
         setNextQuestion();
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function startClock() {
         timerInterval = setInterval(() => {
             timer--;
-            clock.innerText = "${timer} seconds";
+            clock.innerText = `${timer} seconds`;
             if (timer <= 0) {
                 clearInterval(timerInterval);
                 endQuiz();
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showQuestion(questions[currentQuestionIndex]);
     }
 
-    function showQuestion() {
+    function showQuestion(question) {
         questionsSection.innerText = question.question;
         question.answers.forEach(answer => {
             var button = document.createElement("button");
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             timer -= 10;
             if (timer < 0) timer = 0;
-            clock.innerText = "${timer} seconds"
+            clock.innerText = `${timer} seconds`;
         }
         if (currentQuestionIndex < questions.length - 1){
             currentQuestionIndex++;
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadHighscores() {
         var oldHighscores = JSON.parse(localStorage.getItem("oldHighscores")) || [];
         highscoresList.innerText = oldHighscores
-            .map(score => "<li> ${score.initials - ${score.score}} </li>")
+            .map(score => `<li>${score.initials} - ${score.score}}</li>`)
             .join(" ");
     }
 
