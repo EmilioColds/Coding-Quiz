@@ -21,6 +21,116 @@ document.addEventListener("DOMContentLoaded", () => {
     highscoresList.addEventListener("click", showHighscores);
     goBackButton.addEventListener("click", goBack);
     clearHighscoresButton.addEventListener("click", clearHighscores);
+    
+    function startQuiz() {
+        score = 0;
+        currentQuestionIndex = 0;
+        startQuiz.classList.add("hide");
+        timer = 60;
+        clock.innerText = "%{timer} seconds";
+        questionsSection.classList.remove("hide");
+        startClock();
+        setNextQuestion();
+    }
+
+    function startClock() {
+        timerInterval = setInterval(() => {
+            timer--;
+            clock.innerText = "${timer} seconds";
+            if (timer <= 0) {
+                clearInterval(timerInterval);
+                endQuiz();
+            }
+        }, 1000);
+    }
+
+    function setNextQuestion() {
+        resetState();
+        showQuestion(questions[currentQuestionIndex]);
+    }
+
+    function showQuestion() {
+        questionsSection.innerText = question.question;
+        question.answers.forEach(answer => {
+            var button = document.createElement("button");
+            button.innerText = answer.text;
+            button.classList.add("button");
+            if (answer.correct) {
+                button.dataset.correct = answer.correct;
+            }
+            button.addEventListener ("click", selectAnswer);
+            answerButton.appendChild(button);
+        });
+    }
+
+    function resetState() {
+        while (answerButton.firstChild) {
+            answerButton.removeChild(answerButton.firstChild);
+        }
+    }
+
+    function selectAnswer(e) {
+        var selectedButton = e.target;
+        var correctAnswer = selectedButton.dataset.correct;
+        if (correctAnswer) {
+            score++;
+        } else {
+            timer -= 10;
+            if (timer < 0) timer = 0;
+            clock.innerText = "${timer} seconds"
+        }
+        if (currentQuestionIndex < questions.length - 1){
+            currentQuestionIndex++;
+            setNextQuestion();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        clearInterval(timerInterval);
+        questionsSection.classList.add("hide");
+        submitScoreForm.classList.remove("hide");
+        finalScore.innerText = score;
+    }
+
+    function saveHighscores(event) {
+        event.preventDefault();
+        var initials = userInitials.value;
+        var highscores = JSON.parse(localStorage.getItem("oldHighscores")) || [];
+        var newScore = { initials, score };
+        highscores.push(newScore);
+        highscores.sort((a, b) => b.score - a.score);
+        localStorage.setItem("oldHighscores", JSON.stringify(highscores));
+        loadHighscores();
+        userInitials.value = " ";
+        submitScoreForm.classList.add("hide");
+        highscores.classList.remove("hide");
+    }
+
+    function showHighscores() {
+        loadHighscores();
+        startQuiz.classList.add("hide");
+        highscores.classList.remove("hide");
+    }
+
+    function loadHighscores() {
+        var oldHighscores = JSON.parse(localStorage.getItem("oldHighscores")) || [];
+        highscoresList.innerText = oldHighscores
+            .map(score => "<li> ${score.initials - ${score.score}} </li>")
+            .join(" ");
+    }
+
+    function goBack() {
+        highscores.classList.add("hide");
+        startQuiz.classList.remove("hide");
+        resetState();
+    }
+
+    function clearHighscores() {
+        localStorage.removeItem("oldHighscores");
+        highscoresList.innerText = " ";
+    }
 
     var questions = [
         {
@@ -69,46 +179,4 @@ document.addEventListener("DOMContentLoaded", () => {
             ],
         },
     ];
-    
-    function startQuiz() {
-        score = 0;
-        currentQuestionIndex = 0;
-        startQuiz.classList.add("hide");
-        timer = 60;
-        clock.innerText = "%{timer} seconds";
-        questionsSection.classList.remove("hide");
-        startClock();
-        setNextQuestion();
-    }
-
-    function startClock() {
-        timerInterval = setInterval(() => {
-            timer--;
-            clock.innerText = "${timer} seconds";
-            if (timer <= 0) {
-                clearInterval(timerInterval);
-                endGame();
-            }
-        }, 1000);
-    }
-
-    function setNextQuestion() {
-        resetState();
-        showQuestion(questions[currentQuestionIndex]);
-    }
-
-    function showQuestion() {
-        questionsSection.innerText = question.question;
-        question.answers.forEach(answer => {
-            var button = document.createElement("button");
-            button.innerText = answer.text;
-            button.classList.add("button");
-            if (answer.correct) {
-                button.dataset.correct = answer.correct;
-            }
-            button.addEventListener ("click", selectAnswer);
-            answerButton.appendChild(button);
-        });
-    }
-
 });
