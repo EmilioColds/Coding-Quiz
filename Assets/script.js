@@ -57,15 +57,16 @@ document.addEventListener("DOMContentLoaded", () => {
     function showQuestion(question) {
         questionElement.innerText = questions[currentQuestionIndex].question;
         questions[currentQuestionIndex].answers.forEach(answer => {
+            var list = document.createElement("li");
             var button = document.createElement("button");
             button.innerText = answer.text;
             button.classList.add("button");
-            button.dataset.correct = answer.correct
-            // if (answer.correct) {
-                // button.dataset.correct = answer.correct;
-            // }
+            if (answer.correct) {
+                button.dataset.correct = answer.correct
+            }
             button.addEventListener ("click", selectAnswer);
-            answerButton.appendChild(button);
+            list.appendChild(button);
+            answerButton.appendChild(list);
         });
     }
 

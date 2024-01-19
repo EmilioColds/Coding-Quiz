@@ -33,17 +33,15 @@ main {
     max-width: 600px;
     margin: auto;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
     margin-top: 20px;
+    text-align: left;
 }
 
 .center-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 
 button {
@@ -62,6 +60,8 @@ button:hover {
 }
 
 .btn {
+    display: block;
+    width: 100%;
     padding: 10px 20px;
     margin: 10px;
     border: none;
@@ -82,7 +82,7 @@ button:hover {
 
 #view-highscores {
     text-decoration: none;
-    color: black;
+    color: #a103a6;
 }
 
 #highscores-list {
@@ -90,41 +90,84 @@ button:hover {
     padding: 0;
 }
 
-#submit-score-form {
+#submit-score-form .form-style {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
-    max-width: 300px;
+    max-width: auto;
 }
 
 #user-initials {
     padding: 10px;
-    margin-bottom: 10px;
+    margin-right: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
+    flex-grow: 1;
+    max-width: none;
 }
 
 #user-initials, #submit-score-form button {
     padding: 10px;
-    margin: 10px 0;
+    margin: 10px 15px;
     border-radius: 5px;
     border: 1px solid #ddd;
     width: 80%;
     max-width: 300px;
 }
-#submit-score-form button {
+/* #submit-score-form button {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     background-color: #a103a6;
     color: white;
     border: none;
     cursor: pointer;
+    flex: 0 1 auto;
+    padding: 10px 15px;
+    width: auto;
+} */
+
+#submit-score-form button {
+    padding: 10px 15px;
+    width: auto;
+    flex: 0 0 auto;
 }
 
 #submit-score-form button:hover {
     background-color: #ba33c9;
     scale: 115%;
 }
+
+#answer-button {
+    list-style: none;
+    padding-left: 0;
+    width: 100%;
+    text-align: left;
+}
+
+#question {
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+#feedback {
+    color: gray;
+    border-top: 1px solid gray;
+    padding-top: 5px;
+    font-style: italic;
+}
+
+#text-prompt {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin: 10px 0px 10px 0px;
+    padding: 10px 0px 10px 0px;
+
+}
+

@@ -22,22 +22,27 @@
 
             <div id="questions-section" class="hide"> 
                 <div id="question"> </div>
-                <div id="answer-button"> </div>
+                <ul id="answer-button"></ul>
                 <div id="feedback"> </div>
-                <div id="results-section" class="hide"> </div>
             </div>
+
+            <div id="results-section" class="hide"> </div>
+
             <div id="submit-score" class="center-content">
                 <h2> All Done! </h2>
                 <p> Your final score is: <span id="final-score"></span>/5</p>
                 <form id="submit-score-form">
-                    <input type="text" id="user-initials" placeholder="Enter initials" required>
-                    <button type="submit"> Submit </button>
+                    <div class="form-style"> 
+                        <p id="text-prompt"> Enter your initials: </p>
+                        <input type="text" id="user-initials" placeholder="Enter initials" required>
+                        <button type="submit"> Submit </button>  
+                    </div>
                 </form>
                 <p id="feedback"> </p>
             </div>
     
             <div id="highscores-section" class="hide">
-                <h2> Scores </h2>
+                <h2> Highscores </h2>
                 <ul id="highscores-list"> </ul>
                 <button id="go-back-button"> Go back </button>
                 <button id="clear-highscores-button"> Clear Highscores </button>
