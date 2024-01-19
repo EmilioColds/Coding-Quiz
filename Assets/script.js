@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var highscoresList = document.getElementById("highscores-list"); //highscoresList
     var goBackButton = document.getElementById("go-back-button");
     var clearHighscoresButton = document.getElementById("clear-highscores-button");
+    hideSubmitScoreSection();
 
     let currentQuestionIndex, timer, score, timerInterval;
 
@@ -116,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(timerInterval);
         questionsSection.classList.add("hide");
         submitScoreSection.classList.remove("hide");
+        submitScoreSection.classList.add("center-content")
         finalScore.innerText = score;
     }
 
@@ -163,50 +165,55 @@ document.addEventListener("DOMContentLoaded", () => {
         highscoresList.innerText = " ";
     }
 
+    function hideSubmitScoreSection() {
+        submitScoreSection.classList.add("hide");
+        submitScoreSection.classList.remove("center-content");
+    }
+
     var questions = [
         {
             question: "Commonly used data types DO NOT include: ",
             answers: [
-                { text: "Strings", correct: false},
-                { text: "Booleans", correct: false},
-                { text: "Alerts", correct: true},
-                { text: "Numbers", correct: false},
+                { text: "1. Strings", correct: false},
+                { text: "2. Booleans", correct: false},
+                { text: "3. Alerts", correct: true},
+                { text: "4. Numbers", correct: false},
             ],
         },
         {
             question: "The condition in an if/else statement is enclosed within ____. ",
             answers: [
-                { text: "Quotes", correct: false},
-                { text: "Curly brackets", correct: false},
-                { text: "Parenthesis", correct: true},
-                { text: "Square brackets", correct: false},
+                { text: "1. Quotes", correct: false},
+                { text: "2. Curly brackets", correct: false},
+                { text: "3. Parenthesis", correct: true},
+                { text: "4. Square brackets", correct: false},
             ],
         },
         {
             question: "Arrays in JavaScript can be used to store ____. ",
             answers: [
-                { text: "Numbers and strings", correct: false},
-                { text: "Other arrays", correct: false},
-                { text: "Booleans", correct: false},
-                { text: "All of the above", correct: true},
+                { text: "1. Numbers and strings", correct: false},
+                { text: "2. Other arrays", correct: false},
+                { text: "3. Booleans", correct: false},
+                { text: "4. All of the above", correct: true},
             ],
         },
         {
             question: "String values must be enclosed within ____ when being assigned to variables. ",
             answers: [
-                { text: "Commas", correct: false},
-                { text: "Curly brackets", correct: false},
-                { text: "Quotes", correct: true},
-                { text: "Parenthesis", correct: false},
+                { text: "1. Commas", correct: false},
+                { text: "2. Curly brackets", correct: false},
+                { text: "3. Quotes", correct: true},
+                { text: "4. Parenthesis", correct: false},
             ],
         },
         {
             question: "A very useful tool used during development and debugging for printing content to the debugger is: ",
             answers: [
-                { text: "JavaScript", correct: false},
-                { text: "Terminal / bash", correct: false},
-                { text: "For loops", correct: false},
-                { text: "Console.log", correct: true},
+                { text: "1. JavaScript", correct: false},
+                { text: "2. Terminal / bash", correct: false},
+                { text: "3. For loops", correct: false},
+                { text: "4. Console.log", correct: true},
             ],
         },
     ];
