@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var feedback = document.getElementById("feedback"); //Added the ID
     var finalScore = document.getElementById("final-score"); //finalScoreElement
     var viewHighscores = document.getElementById("view-highscores"); //highscoresLink
-    var highscores = document.getElementById("highscores"); //highscoresContainer
+    var highscoresContainer = document.getElementById("highscores-section"); //highscoresContainer
     var highscoresList = document.getElementById("highscores-list"); //highscoresList
     var goBackButton = document.getElementById("go-back-button");
     var clearHighscoresButton = document.getElementById("clear-highscores-button");
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     startQuizButton.addEventListener("click", startQuiz);
     submitScoreForm.addEventListener("submit", saveHighscores);
     highscoresList.addEventListener("click", showHighscores);
+    viewHighscores.addEventListener("click", showHighscores);
     goBackButton.addEventListener("click", goBack);
     clearHighscoresButton.addEventListener("click", clearHighscores);
     
@@ -120,37 +121,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function saveHighscores(event) {
         event.preventDefault();
-        var initials = userInitials.value;
-        var highscores = JSON.parse(localStorage.getItem("oldHighscores")) || [];
-        var newScore = { initials, score };
-        highscores.push(newScore);
-        highscores.sort((a, b) => b.score - a.score);
-        localStorage.setItem("oldHighscores", JSON.stringify(highscores));
-        loadHighscores();
-        userInitials.value = " ";
-        submitScoreForm.classList.add("hide");
-        highscores.classList.remove("hide");
+        var initials = userInitials.value.trim();
+        if (initials) {
+            var storedHighscores = JSON.parse(localStorage.getItem("highscores")) || [];
+            var newScore = { initials, score };
+            storedHighscores.push(newScore);
+            storedHighscores.sort((a, b) => b.score - a.score);
+            localStorage.setItem("highscores", JSON.stringify(storedHighscores));
+            loadHighscores();
+            submitScoreSection.classList.add("hide");
+            highscoresContainer.classList.remove("hide");
+        } else {
+            feedback.innerText = "Please enter your initials."
+            feedback.classList.remove("hide");
+        }
     }
 
     function showHighscores() {
         loadHighscores();
-        startQuiz.classList.add("hide");
-        highscores.classList.remove("hide");
+        startQuizButton.classList.add("hide");
+        highscoresContainer.classList.remove("hide");
+        quizIntro.classList.add("hide");
     }
 
     function loadHighscores() {
-        var oldHighscores = JSON.parse(localStorage.getItem("oldHighscores")) || [];
-        highscoresList.innerText = oldHighscores.map(score => `<li>${score.initials} - ${score.score}}</li>`).join(" ");
+        var storedHighscores = JSON.parse(localStorage.getItem("highscores")) || [];
+        highscoresList.innerHTML = storedHighscores
+        .map(score => `<li>${score.initials} - ${score.score}</li>`)
+        .join(" ");
     }
 
     function goBack() {
-        highscores.classList.add("hide");
-        startQuiz.classList.remove("hide");
+        highscoresContainer.classList.add("hide");
+        quizIntro.classList.remove("hide");
+        startQuizButton.classList.remove("hide");
         resetState();
     }
 
     function clearHighscores() {
-        localStorage.removeItem("oldHighscores");
+        localStorage.removeItem("highscores");
         highscoresList.innerText = " ";
     }
 
