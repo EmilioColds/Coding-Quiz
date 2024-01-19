@@ -23,29 +23,28 @@
             <div id="questions-section" class="hide"> 
                 <div id="question"> </div>
                 <div id="answer-button"> </div>
+                <div id="feedback"> </div>
                 <div id="results-section" class="hide"> </div>
             </div>
-
+            <div id="submit-score" class="hide">
+                <h2> All Done! </h2>
+                <p> Your final score is: <span id="final-score"></span>/5</p>
+                <form id="submit-score-form">
+                    <input type="text" id="user-initials" placeholder="Enter initials" required>
+                    <button type="submit"> Submit </button>
+                </form>
+                <p id="feedback"> </p>
+            </div>
+    
+            <div id="highscores-section" class="hide">
+                <h2> Scores </h2>
+                <ul id="highscores-list"> </ul>
+                <button id="go-back-button"> Go back </button>
+                <button id="clear-highscores-button"> Clear Highscores </button>
+    
+            </div>
+        </div>
         </main>
-
-        <div id="submit-score" class="hide">
-            <h2> All Done! </h2>
-            <p> Your final score is: <span id="final-score"></span>.</p>
-            <form id="submit-score-form">
-                <input type="text" id="user-initials" placeholder="Enter initials" required>
-                <button type="submit"> Submit </button>
-            </form>
-            <p id="feedback"> </p>
-        </div>
-
-        <div id="highscores-section" class="hide">
-            <h2> Scores </h2>
-            <ul id="highscores-list"> </ul>
-            <button id="go-back-button"> Go back </button>
-            <button id="clear-highscores-button"> Clear Highscores </button>
-
-        </div>
-    </div>
 
     <script src="./Assets/script.js"></script>
 </body>

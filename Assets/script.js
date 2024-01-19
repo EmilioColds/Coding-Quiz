@@ -5,10 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
     var questionElement = document.getElementById("question"); //questionElement
     var answerButton = document.getElementById("answer-button"); //answerButtonsElement
     var clock = document.getElementById("clock"); //timerElement
-
+    var submitScoreSection = document.getElementById("submit-score"); //submitScore
     var submitScoreForm = document.getElementById("submit-score-form"); //submitScoreForm
     var userInitials = document.getElementById("user-initials"); //userInitialsInput
-    var feedback = document.getElementById("feedback"); //Added
+    var feedback = document.getElementById("feedback"); //Added the ID
     var finalScore = document.getElementById("final-score"); //finalScoreElement
     var viewHighscores = document.getElementById("view-highscores"); //highscoresLink
     var highscores = document.getElementById("highscores"); //highscoresContainer
@@ -75,26 +75,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function selectAnswer(e) {
         var selectedButton = e.target;
-        var correctAnswer = selectedButton.dataset.correct;
-        if (correctAnswer) {
-            score++;
-        } else {
+        var correct = selectedButton.dataset.correct === "true";
+        displayFeedback(correct);
+        if (!correct) {
             timer -= 10;
             if (timer < 0) timer = 0;
             clock.innerText = `${timer}`;
-        }
-        if (currentQuestionIndex < questions.length - 1){
-            currentQuestionIndex++;
-            setNextQuestion();
         } else {
-            endQuiz();
+            score++;
         }
+        
+        setTimeout(() => {
+            feedback.classList.add("hide");
+        }, 1000);
+        
+        if(currentQuestionIndex < questions.length - 1) {
+            setTimeout(() => {
+                currentQuestionIndex++;
+                setNextQuestion();
+            }, 1000);
+        } else {
+            setTimeout(endQuiz, 1000);
+        }
+    }
+
+    function displayFeedback(correct) {
+        if (correct) {
+            feedback.innerText = "Correct!";
+        } else {
+            feedback.innerText = "Wrong!";
+        }
+        feedback.classList.remove("hide");
+        setTimeout(() => {
+            feedback.classList.add("hide");
+        }, 1000);
     }
 
     function endQuiz() {
         clearInterval(timerInterval);
         questionsSection.classList.add("hide");
-        submitScoreForm.classList.remove("hide");
+        submitScoreSection.classList.remove("hide");
         finalScore.innerText = score;
     }
 
@@ -120,9 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function loadHighscores() {
         var oldHighscores = JSON.parse(localStorage.getItem("oldHighscores")) || [];
-        highscoresList.innerText = oldHighscores
-            .map(score => `<li>${score.initials} - ${score.score}}</li>`)
-            .join(" ");
+        highscoresList.innerText = oldHighscores.map(score => `<li>${score.initials} - ${score.score}}</li>`).join(" ");
     }
 
     function goBack() {
