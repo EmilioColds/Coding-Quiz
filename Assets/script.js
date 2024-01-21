@@ -1,24 +1,28 @@
+// We wait for the DOM tree to be fully loaded before declaring the variables that are taken from the HTML ID's
 document.addEventListener("DOMContentLoaded", () => {
-    var startQuizButton = document.getElementById("start-button"); //startButton
+    var startQuizButton = document.getElementById("start-button");
     var quizIntro = document.getElementById("intro-quiz") 
-    var questionsSection = document.getElementById("questions-section"); //questionContainerElement
-    var questionElement = document.getElementById("question"); //questionElement
-    var answerButton = document.getElementById("answer-button"); //answerButtonsElement
-    var clock = document.getElementById("clock"); //timerElement
-    var submitScoreSection = document.getElementById("submit-score"); //submitScore
-    var submitScoreForm = document.getElementById("submit-score-form"); //submitScoreForm
-    var userInitials = document.getElementById("user-initials"); //userInitialsInput
-    var feedback = document.getElementById("feedback"); //Added the ID
-    var finalScore = document.getElementById("final-score"); //finalScoreElement
-    var viewHighscores = document.getElementById("view-highscores"); //highscoresLink
-    var highscoresContainer = document.getElementById("highscores-section"); //highscoresContainer
-    var highscoresList = document.getElementById("highscores-list"); //highscoresList
+    var questionsSection = document.getElementById("questions-section");
+    var questionElement = document.getElementById("question");
+    var answerButton = document.getElementById("answer-button");
+    var clock = document.getElementById("clock"); 
+    var submitScoreSection = document.getElementById("submit-score");
+    var submitScoreForm = document.getElementById("submit-score-form"); 
+    var userInitials = document.getElementById("user-initials"); 
+    var feedback = document.getElementById("feedback"); 
+    var finalScore = document.getElementById("final-score"); 
+    var viewHighscores = document.getElementById("view-highscores"); 
+    var highscoresContainer = document.getElementById("highscores-section"); 
+    var highscoresList = document.getElementById("highscores-list"); 
     var goBackButton = document.getElementById("go-back-button");
     var clearHighscoresButton = document.getElementById("clear-highscores-button");
+    // Used to hide the submit score section
     hideSubmitScoreSection();
 
+    // The variables that will keep track of the question, time, score and interval
     let currentQuestionIndex, timer, score, timerInterval;
 
+    // The event listeners for buttons and forms
     startQuizButton.addEventListener("click", startQuiz);
     submitScoreForm.addEventListener("submit", saveHighscores);
     highscoresList.addEventListener("click", showHighscores);
@@ -26,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     goBackButton.addEventListener("click", goBack);
     clearHighscoresButton.addEventListener("click", clearHighscores);
     
+    // The function for the button that starts the quiz
     function startQuiz() {
         score = 0;
         currentQuestionIndex = 0;
@@ -38,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setNextQuestion();
     }
 
+    // The function that starts the timer/clock
     function startClock() {
         timerInterval = setInterval(() => {
             timer--;
@@ -49,11 +55,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1000);
     }
 
+    // The function to keep track of the current question and set the next one
     function setNextQuestion() {
         resetState();
         showQuestion(questions[currentQuestionIndex]);
     }
 
+    // The function to keep track of the current question and show the right one in the specific format
     function showQuestion(question) {
         questionElement.innerText = questions[currentQuestionIndex].question;
         questions[currentQuestionIndex].answers.forEach(answer => {
@@ -70,12 +78,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // The function that clears the previous answers so that the new ones appear
     function resetState() {
         while (answerButton.firstChild) {
             answerButton.removeChild(answerButton.firstChild);
         }
     }
 
+    // The function that determines the selected anwers and punish the wrong answers
     function selectAnswer(e) {
         var selectedButton = e.target;
         var correct = selectedButton.dataset.correct === "true";
@@ -87,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             score++;
         }
-        
         setTimeout(() => {
             feedback.classList.add("hide");
         }, 1000);
@@ -102,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // The function that shows the selected answer feedback
     function displayFeedback(correct) {
         if (correct) {
             feedback.innerText = "Correct!";
@@ -114,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1000);
     }
 
+    // The function that ends the quiz 
     function endQuiz() {
         clearInterval(timerInterval);
         questionsSection.classList.add("hide");
@@ -122,6 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
         finalScore.innerText = score;
     }
 
+    // The function that creates the local storage to save the scores
     function saveHighscores(event) {
         event.preventDefault();
         var initials = userInitials.value.trim();
@@ -140,6 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // The function that displays the scores section
     function showHighscores() {
         loadHighscores();
         startQuizButton.classList.add("hide");
@@ -147,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
         quizIntro.classList.add("hide");
     }
 
+    // The function that retrieves the scores from the local storage
     function loadHighscores() {
         var storedHighscores = JSON.parse(localStorage.getItem("highscores")) || [];
         highscoresList.innerHTML = storedHighscores
@@ -154,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .join(" ");
     }
 
+    // The funtion that "resets" the quiz to the home page
     function goBack() {
         highscoresContainer.classList.add("hide");
         quizIntro.classList.remove("hide");
@@ -161,16 +176,19 @@ document.addEventListener("DOMContentLoaded", () => {
         resetState();
     }
 
+    // The function that clears the highscores
     function clearHighscores() {
         localStorage.removeItem("highscores");
         highscoresList.innerText = " ";
     }
 
+    // The funtion to hide the form section
     function hideSubmitScoreSection() {
         submitScoreSection.classList.add("hide");
         submitScoreSection.classList.remove("center-content");
     }
 
+    // The questions presented with each individual question and answers
     var questions = [
         {
             question: "Commonly used data types DO NOT include: ",
